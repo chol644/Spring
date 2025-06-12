@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 실제 사용 시 네임스페이스를 인터페이스 경로로 변경 -->
+<mapper namespace="org.scoula.todo.mapper.TodoMapper">
+
+    <!--    id == TodoMapper 인터페이스의 메서드명-->
+    <!--    parameterType == 메서드의 매개변수와 같은 타입-->
+    <!--        #{} == preparedStatement의 ?(placeHolder) 역할-->
+    <!--    #{title} == 전달 받은 파라미터(TodoDTO)의 title 필드값을 지정된 위치에 대입-->
+    <insert id="insertTodo" parameterType="org.scoula.todo.domain.TodoDTO">
+        insert into todo(title, description, done)
+        values (#{title}, #{description}, #{done})
+    </insert>
+
+    <!--   완료여부 수정  -->
+    <!--   Long == gava.lang.Long     -->
+    <update id="updateTodo" parameterType="Long">
+        UPDATE todo
+        SET done = NOT(done)
+        WHERE id = #{id}
+    </update>
+
+
+    <!--   Long == gava.lang.Long     -->
+    <update id="deleteTodo" parameterType="Long">
+        DELETE FROM todo
+        WHERE id = #{id}
+    </update>
+
+</mapper>
