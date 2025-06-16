@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.scoula.board.domain.BoardAttachmentVO;
 import org.scoula.board.domain.BoardVO;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +30,12 @@ public class BoardDTO {
     private List<String> tags;    // 태그 목록
     private boolean isOwner;      // 작성자 여부
 
+    // 첨부파일 정보
+    private List<BoardAttachmentVO> attaches;
+
+    // 실제 업로드된 파일들 (form에서 전송됨)
+    private List<MultipartFile> files = new ArrayList<>();
+
     // vo -> dto로 변환
     public static BoardDTO of (BoardVO vo) {
         return vo == null ? null : BoardDTO.builder()
@@ -36,6 +45,8 @@ public class BoardDTO {
                 .writer(vo.getWriter())
                 .regDate(vo.getRegDate())
                 .updateDate(vo.getUpdateDate())
+                .attaches(vo.getAttaches())
+                .regDate(vo.getRegDate())
                 .build();
     }
 
@@ -47,6 +58,8 @@ public class BoardDTO {
                 .writer(writer)
                 .regDate(regDate)
                 .updateDate(updateDate)
+                .attaches(attaches)
+                .regDate(regDate)
                 .build();
     }
 

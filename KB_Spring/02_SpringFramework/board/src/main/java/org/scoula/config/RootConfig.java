@@ -20,6 +20,7 @@ import javax.sql.DataSource;
 @Configuration
 @PropertySource({"classpath:/application.properties"})
 @MapperScan(basePackages = {"org.scoula.board.mapper"})
+@ComponentScan(basePackages = {"org.scoula.board.service"})
 public class RootConfig {
     @Value("${jdbc.driver}") String driver;
     @Value("${jdbc.url}") String url;
@@ -36,15 +37,15 @@ public class RootConfig {
         return dataSource;
     }
 
-    @Configuration
-    @PropertySource({"classpath:/application.properties"})
-    @MapperScan(basePackages = {"org.scoula.board.mapper"})        // Mapper 스캔
-    @ComponentScan(basePackages = {
-            "org.scoula.board.service" // BoardService 패키지 추
-    })    // Service 스캔
-    public class RootConfig {
-        // 기타 설정...
-    }
+//    @Configuration
+//    @PropertySource({"classpath:/application.properties"})
+//    @MapperScan(basePackages = {"org.scoula.board.mapper"})        // Mapper 스캔
+//    @ComponentScan(basePackages = {
+//            "org.scoula.board.service" // BoardService 패키지 추
+//    })    // Service 스캔
+//    public class RootConfig {
+//        // 기타 설정...
+//    }
 
     @Autowired
     ApplicationContext applicationContext;

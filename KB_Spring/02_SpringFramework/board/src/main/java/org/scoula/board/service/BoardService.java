@@ -1,5 +1,6 @@
 package org.scoula.board.service;
 
+import org.scoula.board.domain.BoardAttachmentVO;
 import org.scoula.board.dto.BoardDTO;
 import java.util.List;
 
@@ -36,4 +37,7 @@ public interface BoardService {
      * @return 삭제 성공 여부
      */
     public boolean delete(Long no);
+
+    public BoardAttachmentVO getAttachment(Long no);
+    public boolean deleteAttachment(Long no);
 }
