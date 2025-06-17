@@ -6,14 +6,19 @@ public class MemberServiceImpl implements MemberService {
     // 회원 저장소 역할을 하는 객체를 선언함
     // 인터페이스 타입(MemberRepository)으로 선언하여 나중에 구현체만 바꿔 끼울 수 있도록 함
     // 지금은 MemoryMemberRepository(메모리 기반 저장소)를 직접 생성해서 사용
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    // private final MemberRepository memberRepository = new MemoryMemberRepository();
+
+    private final MemberRepository memberRepository;
+
+    public MemberServiceImpl(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     // 회원 가입 기능 구현
     // 매개변수로 받은 member 객체를 memberRepository에 저장함
     @Override
     public void join(Member member) {
-        // 회원 정보 저장
-        memberRepository.save(member);
+        memberRepository.save(member); // 회원 정보 저장
     }
 
     // 회원 조회 기능 구현
