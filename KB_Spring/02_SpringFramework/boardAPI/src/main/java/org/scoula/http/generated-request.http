@@ -1,0 +1,10 @@
+###
+PUT http://localhost:8080/api/board/{{no}}
+Content-Type: application/json
+
+{
+  "no" : 22,
+  "title" : "수정 {{$timestamp}}",
+  "content" : "수정된 내용",
+  "writer" : "수정이"
+}
