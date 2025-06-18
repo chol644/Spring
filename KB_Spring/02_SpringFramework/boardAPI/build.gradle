@@ -33,8 +33,14 @@ tasks.withType(JavaCompile) {
 
 // 프로젝트 의존성 라이브러리 선언 (최신 버전으로 업데이트)
 dependencies {
-    implementation 'io.springfox:springfox-swagger2:2.9.2'
-    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+
+// Java HTTP 통신을 위한 Apache 라이브러리(RestTemplate)
+    implementation 'org.apache.httpcomponents:httpcore:4.4.15'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+
+// Swagger 관련 의존성
+    implementation 'io.springfox:springfox-swagger2:2.9.2'       // Swagger 핵심 라이브러리
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'     // Swagger UI 웹 인터페이스
 
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.16'
 
