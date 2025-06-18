@@ -1,5 +1,6 @@
 package org.scoula.board.controller;
 
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.scoula.board.dto.BoardDTO;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequestMapping("/api/board")
 @RequiredArgsConstructor
 @Log4j2
+@Api(tags = "게시글 관리")
 public class BoardController {
     private final BoardService service;
 
@@ -24,6 +26,12 @@ public class BoardController {
      *         - 204 No Content: 조회 성공했지만 게시글이 하나도 없음
      *         - 500 Internal Server Error: 서버 내부 오류 (DB 연결 실패 등)
      */
+    @ApiOperation(value = "게시글 목록", notes = "게시글 목록을 얻는 API")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "성공적으로 요청이 처리되었습니다.", response = BoardDTO.class),
+            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
+            @ApiResponse(code = 500, message = "서버에서 오류가 발생했습니다.")
+    })
     @GetMapping("")
     public ResponseEntity<List<BoardDTO>> getList() {
         log.info("============> 게시글 전체 목록 조회");
@@ -44,7 +52,14 @@ public class BoardController {
      *         - 500 Internal Server Error: 서버 내부 오류
      */
     @GetMapping("/{no}")
-    public ResponseEntity<BoardDTO> get(@PathVariable Long no) {
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "성공적으로 요청이 처리되었습니다.", response = BoardDTO.class),
+            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
+            @ApiResponse(code = 500, message = "서버에서 오류가 발생했습니다.")
+    })
+    public ResponseEntity<BoardDTO> get(
+            @ApiParam(value = "게시글 ID", required = true, example = "1")
+            @PathVariable Long no) {
         log.info("============> 게시글 상세 조회: " + no);
 
         BoardDTO board = service.get(no);
@@ -60,8 +75,16 @@ public class BoardController {
      *         - 400 Bad Request: 잘못된 요청 데이터 (제목/내용 누락 등)
      *         - 500 Internal Server Error: 서버 내부 오류 발생 시
      */
+    @ApiOperation(value = "게시글 생성", notes = "게시글 생성 API")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "성공적으로 요청이 처리되었습니다.", response = BoardDTO.class),
+            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
+            @ApiResponse(code = 500, message = "서버에서 오류가 발생했습니다.")
+    })
     @PostMapping("")
-    public ResponseEntity<BoardDTO> create(@RequestBody BoardDTO board) {
+    public ResponseEntity<BoardDTO> create(
+            @ApiParam(value = "게시글 객체", required = true)
+            @RequestBody BoardDTO board) {
         log.info("============> 게시글 생성: " + board);
 
         // 새 게시글 생성 후 결과 반환
@@ -80,9 +103,17 @@ public class BoardController {
      *         - 404 Not Found: 수정할 게시글이 존재하지 않음
      *         - 500 Internal Server Error: 서버 내부 오류 발생 시
      */
+    @ApiOperation(value = "게시글 수정", notes = "게시글 수정 API")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "성공적으로 요청이 처리되었습니다.", response = BoardDTO.class),
+            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
+            @ApiResponse(code = 500, message = "서버에서 오류가 발생했습니다.")
+    })
     @PutMapping("/{no}")
     public ResponseEntity<BoardDTO> update(
+            @ApiParam(value = "게시글 ID", required = true, example = "1")
             @PathVariable Long no,           // URL에서 게시글 번호 추출
+            @ApiParam(value = "게시글 객체", required = true)
             @RequestBody BoardDTO board      // 수정할 데이터 (JSON)
     ) {
         log.info("============> 게시글 수정: " + no + ", " + board);
@@ -104,8 +135,16 @@ public class BoardController {
      *         - 404 Not Found: 삭제할 게시글이 존재하지 않음
      *         - 500 Internal Server Error: 서버 내부 오류 발생 시
      */
+    @ApiOperation(value = "게시글 삭제", notes = "게시글 삭제 API")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "성공적으로 요청이 처리되었습니다."),
+            @ApiResponse(code = 400, message = "잘못된 요청입니다."),
+            @ApiResponse(code = 500, message = "서버에서 오류가 발생했습니다.")
+    })
     @DeleteMapping("/{no}")
-    public ResponseEntity<BoardDTO> delete(@PathVariable Long no) {
+    public ResponseEntity<BoardDTO> delete(
+            @ApiParam(value = "게시글 ID", required = true, example = "1")
+            @PathVariable Long no) {
         log.info("============> 게시글 삭제: " + no);
 
         // 삭제된 게시글 정보를 반환
