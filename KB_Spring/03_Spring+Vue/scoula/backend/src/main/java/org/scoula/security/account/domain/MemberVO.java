@@ -1,11 +1,15 @@
 package org.scoula.security.account.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.User;
+
 import java.util.Date;
 import java.util.List;
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,4 +21,5 @@ public class MemberVO {
     private Date updateDate;              // 수정일시
 
     private List<AuthVO> authList;        // 권한 목록 (1:N 관계)
+
 }

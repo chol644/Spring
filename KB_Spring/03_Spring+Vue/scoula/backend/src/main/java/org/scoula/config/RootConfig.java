@@ -2,6 +2,8 @@ package org.scoula.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -22,11 +24,19 @@ import javax.sql.DataSource;
  * - Spring Framework의 최상위(Root) 애플리케이션 컨텍스트를 설정하는 클래스
  * - 웹 계층과 무관한 비즈니스 로직, 서비스, 데이터 액세스 계층의 Bean들을 관리
  */
+@Slf4j
 @Configuration
 @PropertySource({"classpath:/application.properties"})
-@MapperScan(basePackages = {"org.scoula.board.mapper"})
-@ComponentScan(basePackages = {"org.scoula.board.service"})
-@EnableTransactionManagement
+@MapperScan(basePackages = {
+        "org.scoula.board.mapper",
+        "org.scoula.member.mapper"  // 회원 매퍼 스캔
+})
+@ComponentScan(basePackages = {
+        "org.scoula.board.service",
+        "org.scoula.member.service"  // 회원 서비스 스캔
+})
+@EnableTransactionManagement // @Transactional 활성화
+@Log4j2
 public class RootConfig {
 
     // 현재는 기본 설정만 있는 상태
