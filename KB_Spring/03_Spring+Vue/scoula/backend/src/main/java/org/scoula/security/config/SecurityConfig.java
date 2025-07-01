@@ -84,9 +84,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {//WebSecurityC
     // 접근 제한 무시 경로 설정 - resource : security 를 체크하지 않을 곳들 설정
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/assets/**","/*","/api/member/**",
+        web.ignoring().antMatchers(
+                "/assets/**",
+                "/*",
                 // Swagger 관련 url은 보안에서 제외
-                "/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/v2/api-docs"
+                "/swagger-ui.html",
+                "/webjars/**",
+                "/swagger-resources/**",
+                "/v2/api-docs"
         );
     }
 
@@ -95,13 +100,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {//WebSecurityC
         //encodingFilter()를 Spring Security의 CsrfFilter 보다 이전에 실행되도록 필터체인에 추가한다
         //CsrfFilter는 CSRF 공격 방어를 위한 토큰 검사 필터이다.
         http.addFilterBefore(encodingFilter(), CsrfFilter.class)
-        // 로그인 인증 필터
-        .addFilterBefore(jwtUsernamePasswordAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                // 로그인 인증 필터
+                .addFilterBefore(jwtUsernamePasswordAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()// 일단 모든 접근 허용
-                .anyRequest().permitAll();
+                //.anyRequest().permitAll();// 현재는 모든 접근 허용 (개발 단계) <- 삭제
+                // 🌐 회원 관련 공개 API (인증 불필요)
+                .antMatchers(HttpMethod.GET, "/api/member/checkusername/**").permitAll()     // ID 중복 체크
+                .antMatchers(HttpMethod.POST, "/api/member").permitAll()                    // 회원가입
+                .antMatchers(HttpMethod.GET, "/api/member/*/avatar").permitAll()            // 아바타 이미지
+
+                // 🔒 회원 관련 인증 필요 API
+                .antMatchers(HttpMethod.PUT, "/api/member/**").authenticated() // 회원 정보 수정, 비밀번호 변경
+
+                .anyRequest().permitAll(); // 나머지 허용
+
 
         http.httpBasic().disable()// 기본HTTP인증비활성화
                 .csrf().disable()// CSRF 비활성화
@@ -112,7 +127,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {//WebSecurityC
     // 인증 설정 담당
     // AuthenticationManagerBuilder는 인증 제공자(AuthenticationProvider)를 등록하는 빌더
     @Override
-    protected void configure(AuthenticationManagerBuilder auth)throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         log.info("configure ...........................................");
 
         // inMemoryAuthentication() 는 애플리케이션 구동 시점에 메모리 상에 사용자 계정을 생성한다

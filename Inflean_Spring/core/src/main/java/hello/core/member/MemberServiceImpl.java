@@ -1,6 +1,10 @@
 package hello.core.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 // MemberService 인터페이스를 구현한 클래스, 실제로 회원을 저장하고 조회하는 기능을 수행
+@Component
 public class MemberServiceImpl implements MemberService {
 
     // 회원 저장소 역할을 하는 객체를 선언함
@@ -10,6 +14,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Autowired
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }

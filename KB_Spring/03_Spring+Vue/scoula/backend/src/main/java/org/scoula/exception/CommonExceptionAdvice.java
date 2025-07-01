@@ -12,14 +12,14 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @Order(1)
 public class CommonExceptionAdvice {
 
-    // 📍 일반 예외 처리
-    @ExceptionHandler(Exception.class)
-    public String except(Exception ex, Model model) {
-        log.error("Exception: " + ex.getMessage());
-        model.addAttribute("exception", ex);
-        log.error(model);
-        return "error_page";
-    }
+//    // 📍 일반 예외 처리
+//    @ExceptionHandler(Exception.class)
+//    public String except(Exception ex, Model model) {
+//        log.error("Exception: " + ex.getMessage());
+//        model.addAttribute("exception", ex);
+//        log.error(model);
+//        return "error_page";
+//    }
 
     // 📍 404 에러 전용 처리
     @ExceptionHandler(NoHandlerFoundException.class)
