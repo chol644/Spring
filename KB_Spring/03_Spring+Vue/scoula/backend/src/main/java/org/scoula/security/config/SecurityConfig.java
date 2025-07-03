@@ -110,11 +110,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {//WebSecurityC
                 // 🌐 회원 관련 공개 API (인증 불필요)
                 .antMatchers(HttpMethod.GET, "/api/member/checkusername/**").permitAll()     // ID 중복 체크
                 .antMatchers(HttpMethod.POST, "/api/member").permitAll()                    // 회원가입
-                .antMatchers(HttpMethod.GET, "/api/member/*/avatar").permitAll()            // 아바타 이미지
-
+                .antMatchers(HttpMethod.GET, "/api/member/*/avatar").permitAll()// 아바타 이미지
                 // 🔒 회원 관련 인증 필요 API
                 .antMatchers(HttpMethod.PUT, "/api/member/**").authenticated() // 회원 정보 수정, 비밀번호 변경
-
+                .antMatchers(HttpMethod.POST, "/api/board/**").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/board/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/api/board/**").authenticated()
                 .anyRequest().permitAll(); // 나머지 허용
 
 

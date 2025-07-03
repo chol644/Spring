@@ -27,4 +27,6 @@ public interface BoardMapper {
 
     // 특정 첨부 파일 1개 삭제
     public int deleteAttachment(Long no);
+
+
 }
