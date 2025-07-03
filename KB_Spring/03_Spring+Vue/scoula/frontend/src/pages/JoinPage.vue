@@ -1,8 +1,9 @@
 <script setup>
 import {reactive, ref} from 'vue';
-import {useRouter} from 'vue-router';
+import {useRoute,useRouter} from 'vue-router';
 import authApi from '@/api/authApi';
 
+const cr = useRoute();
 const router = useRouter();
 const avatar = ref(null);
 const checkError = ref('');
@@ -44,6 +45,18 @@ const join = async () => {
     router.push({name: 'home'}); // 회원 가입 성공 시, 첫 페이지로 이동 또는 로그인 페이지로 이동
   } catch (e) {
     console.error(e);
+  }
+};
+const login = async () => {
+  try {
+    await auth.login(member);
+    if (cr.query.next) { // 로그인 후 이동할 페이지가 있는 경우
+      router.push({ name: cr.query.next });
+    } else { // 일반 로그인
+      router.push('/');
+    }
+  } catch (e) {
+    error.value = e.response.data;
   }
 };
 </script>

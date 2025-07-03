@@ -10,7 +10,7 @@ const attachments = ref([]);
 const orgArticle = ref({});
 const files = ref(null);
 const back = () => {
-  router.push({ name: 'board/detail', params: { no } });
+  router.push({ name: 'board/detail', params: { no } , query: cr.query});
 };
 const removeFile = async (no, filename) => {
   if (!confirm(filename + '을 삭제할까요?')) return;

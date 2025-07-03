@@ -6,9 +6,11 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.scoula.board.domain.BoardAttachmentVO;
 import org.scoula.board.domain.BoardVO;
+import org.scoula.common.pagination.PageRequest;
 
 @Mapper
 public interface BoardMapper {
+    int getTotalCount();
     public List<BoardVO> getList();
     public BoardVO get(Long no);
     public void create(BoardVO board);
@@ -27,6 +29,9 @@ public interface BoardMapper {
 
     // 특정 첨부 파일 1개 삭제
     public int deleteAttachment(Long no);
+
+    List<BoardVO> getPage(PageRequest pageRequest);
+
 
 
 }

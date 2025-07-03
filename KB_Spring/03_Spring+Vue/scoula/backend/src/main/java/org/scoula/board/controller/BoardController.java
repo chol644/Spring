@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.scoula.board.dto.BoardDTO;
 import org.scoula.board.service.BoardService;
+import org.scoula.common.pagination.Page;
+import org.scoula.common.pagination.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,11 @@ import java.util.List;
 @Api(tags = "게시글 관리")
 public class BoardController {
     private final BoardService service;
+
+    @GetMapping("")
+    public ResponseEntity<Page> getList(PageRequest pageRequest) {
+        return ResponseEntity.ok(service.getPage(pageRequest));
+    }
 
     /**
      * 전체 목록 조회
@@ -151,4 +158,5 @@ public class BoardController {
         BoardDTO deletedBoard = service.delete(no);
         return ResponseEntity.ok(deletedBoard);
     }
+
 }

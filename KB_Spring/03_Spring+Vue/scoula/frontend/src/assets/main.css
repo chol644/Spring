@@ -10,7 +10,33 @@
   border-color: gray;
   background-color: #d8d8d8;             /* 로딩 중 배경색 */
 }
-
+/* 페이지 네이션 */
+.pagination-container {
+  display: flex;
+  /* column-gap: 10px; */
+}
+.paginate-buttons {
+  height: 40px;
+  width: 40px;
+  /* border-radius: 20px; */
+  cursor: pointer;
+  background-color: white; /*rgb(242, 242, 242);*/
+  border: 1px solid white; /* rgb(217, 217, 217);*/
+  color: black;
+}
+.paginate-buttons:hover {
+  border-radius: 20px;
+  background-color: #d8d8d8;
+}
+.active-page {
+  border-radius: 20px;
+  background-color: #3498db;
+  border: 1px solid #3498db;
+  color: white;
+}
+.active-page:hover {
+  background-color: #2988c8;
+}
 .avatar-sm { width: 20px; height: 20px; }  /* 소형 아바타 */
 .avatar-md { width: 40px; height: 40px; }  /* 중형 아바타 */
 .avatar-lg { width: 80px; height: 80px; }  /* 대형 아바타 */
